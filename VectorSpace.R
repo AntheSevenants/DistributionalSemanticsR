@@ -1,13 +1,11 @@
 library(methods)
-library(vegan)
-library(Rtsne)
 
-distributional_semantics <- setRefClass("DistributionalSemantics", fields = list(
-                                    vector_space="array"),
+vector_space <- setRefClass("VectorSpace", fields = list(
+                                    space="array"),
                                   methods = list(
                                     # constructor
-                                    initialize = function(vector_space) {
-                                      vector_space <<- vector_space
+                                    initialize = function(space) {
+                                      space <<- space
                                     },
                                     
                                     # Get distributional values
@@ -18,10 +16,10 @@ distributional_semantics <- setRefClass("DistributionalSemantics", fields = list
                                       
                                       distributional_coords <- lapply(words,
                                                                       function(feature) {
-                                                                        if(feature %in% rownames(vector_space)) {
-                                                                          return(vector_space[feature,])
+                                                                        if(feature %in% rownames(space)) {
+                                                                          return(space[feature,])
                                                                         } else {
-                                                                          return(rep(0, dim(vector_space)[2]))
+                                                                          return(rep(0, dim(space)[2]))
                                                                         } })
                                       distributional_coords <- do.call("cbind", distributional_coords)
                                       distributional_coords <- t(distributional_coords)
