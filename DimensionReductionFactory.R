@@ -21,12 +21,16 @@ dimension_reduction_factory <- setRefClass("DimensionReductionFactory",
                                               
                                               do_mds = function() {
                                                 coordinates <- metaMDS(distance_matrix, k=2, parallel=numCores)$points
+                                                coordinates <- as.data.frame(coordinates)
+                                                colnames(coordinates) <- c("mds_x", "mds_y")
                                                 
                                                 return(coordinates)
                                               },
                                               
                                               do_tsne = function() {
                                                 coordinates <- Rtsne(distance_matrix, is_distance=TRUE)$Y
+                                                coordinates <- as.data.frame(coordinates)
+                                                colnames(coordinates) <- c("tsne_x", "tsne_y")
                                                 
                                                 return(coordinates)
                                               }
