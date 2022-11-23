@@ -1,6 +1,7 @@
 library(methods)
 library(vegan)
 library(Rtsne)
+library(umap)
 
 dimension_reduction_factory <- setRefClass("DimensionReductionFactory",
                                            fields = list(
@@ -31,6 +32,14 @@ dimension_reduction_factory <- setRefClass("DimensionReductionFactory",
                                                 coordinates <- Rtsne(distance_matrix, is_distance=TRUE)$Y
                                                 coordinates <- as.data.frame(coordinates)
                                                 colnames(coordinates) <- c("tsne_x", "tsne_y")
+                                                
+                                                return(coordinates)
+                                              },
+                                              
+                                              do_umap = function() {
+                                                coordinates <- umap(distributional_coords)$layout
+                                                coordinates <- as.data.frame(coordinates)
+                                                colnames(coordinates) <- c("umap_x", "umap_y")
                                                 
                                                 return(coordinates)
                                               }
