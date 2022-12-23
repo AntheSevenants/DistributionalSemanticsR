@@ -1,4 +1,5 @@
 library("cluster")
+library("dbscan")
 #library("factoextra")
 
 clustering <- setRefClass("Clustering",
@@ -12,6 +13,19 @@ clustering <- setRefClass("Clustering",
                               coords <<- coords
                             },
                             
+                            generate_names = function(value_range,
+                                                      clustering_algorithm) {
+                              k_names <- lapply(value_range,
+                              function(value) { 
+                                return(paste0("cluster.",
+                                              dimension_reduction_technique,
+                                              ".",
+                                              clustering_algorithm,
+                                              "_k_", value)) })
+                              
+                              return(k_names)
+                            },
+                            
                             do_k_medoids = function(k = 5) {
                               
                             },
@@ -22,12 +36,32 @@ clustering <- setRefClass("Clustering",
                             },
                             
                             do_k_means_batch = function(k_range) {
-                              k_names <- lapply(k_range,
-                                                function(k_value) { return(paste0("cluster.", dimension_reduction_technique,"_k_", k_value)) })
+                              k_names <- generate_names(k_range, "kmeans")
                               k_results <- lapply(k_range,
                                                   function(k_value) { return(do_k_means(k=k_value)) })
                               
                               output <- list("k_range" = k_range,
+                                             "k_names" = k_names,
+                                             "k_results" = k_results)
+                              
+                              return(output)
+                            },
+                            
+                            do_dbscan = function(min_neighbourhood=5) {
+                              dbscan_done <- dbscan(coords, minPts = min_neighbourhood, eps=0.8)
+                              clusters <- as.numeric(dbscan_done$cluster)
+                              clusters <- lapply(clusters,
+                                                 function(x) ifelse(x==0,NA,x))
+                              return(clusters)
+                            },
+                            
+                            do_dbscan_batch = function(neighbourhood_range) {
+                              k_names <- generate_names(neighbourhood_range, "dbscan")
+                              k_results <- lapply(neighbourhood_range,
+                                function(k_value) { 
+                                  return(do_dbscan(min_neighbourhood=k_value)) })
+                              
+                              output <- list("k_range" = neighbourhood_range,
                                              "k_names" = k_names,
                                              "k_results" = k_results)
                               
