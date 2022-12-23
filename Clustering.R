@@ -23,7 +23,7 @@ clustering <- setRefClass("Clustering",
                             
                             do_k_means_batch = function(k_range) {
                               k_names <- lapply(k_range,
-                                                function(k_value) { return(paste0(dimension_reduction_technique,"_k_", k_value)) })
+                                                function(k_value) { return(paste0("cluster.", dimension_reduction_technique,"_k_", k_value)) })
                               k_results <- lapply(k_range,
                                                   function(k_value) { return(do_k_means(k=k_value)) })
                               
