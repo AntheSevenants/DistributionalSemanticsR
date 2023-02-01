@@ -3,6 +3,13 @@ library(vegan)
 library(Rtsne)
 library(umap)
 
+if (Sys.info()['sysname'] == "Windows") {
+  numCores <- 1
+} else {
+  numCores <- detectCores()
+  numCores
+}
+
 dimension_reduction_factory <- setRefClass("DimensionReductionFactory",
                                            fields = list(
                                               distributional_coords="matrix",
