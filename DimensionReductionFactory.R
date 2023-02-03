@@ -31,8 +31,10 @@ dimension_reduction_factory <- setRefClass("DimensionReductionFactory",
                                               do_mds = function() {
                                                 # If the distance matrix is very large, we get OOM issues
                                                 # So, decide on cores dynamically
-                                                if (dim(distance_matrix)[1] > 5000) {
-                                                  cores_to_use <- numCores / 2
+                                                # MDS absolutely GOBBLES memory so I have to be very conservative
+                                                cores_to_use <- numCores
+                                                if (dim(distance_matrix)[1] > 1000) {
+                                                  cores_to_use <- numCores / 4
                                                 }
                                                 
                                                 coordinates <- metaMDS(distance_matrix, k=2, parallel=cores_to_use)$points
