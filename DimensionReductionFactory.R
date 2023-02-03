@@ -2,6 +2,7 @@ library(methods)
 library(vegan)
 library(Rtsne)
 library(umap)
+library(parallel)
 
 if (Sys.info()['sysname'] == "Windows") {
   numCores <- 1
@@ -28,7 +29,13 @@ dimension_reduction_factory <- setRefClass("DimensionReductionFactory",
                                               },
                                               
                                               do_mds = function() {
-                                                coordinates <- metaMDS(distance_matrix, k=2, parallel=numCores)$points
+                                                # If the distance matrix is very large, we get OOM issues
+                                                # So, decide on cores dynamically
+                                                if (dim(distance_matrix)[1] > 5000) {
+                                                  cores_to_use <- numCores / 2
+                                                }
+                                                
+                                                coordinates <- metaMDS(distance_matrix, k=2, parallel=cores_to_use)$points
                                                 coordinates <- as.data.frame(coordinates)
                                                 colnames(coordinates) <- c("mds_x", "mds_y")
                                                 
