@@ -36,6 +36,13 @@ clustering <- setRefClass("Clustering",
                             },
                             
                             do_k_means_batch = function(k_range) {
+                              print(nrow(coords))
+                              # Filter for valid k ranges
+                              k_range <- k_range[k_range <= nrow(coords) - 1 &
+                                                 k_range >= 1]
+                              
+                              print(k_range)
+                              
                               k_names <- generate_names(k_range, "kmeans")
                               k_results <- lapply(k_range,
                                                   function(k_value) { return(do_k_means(k=k_value)) })
