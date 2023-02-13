@@ -166,7 +166,7 @@ You can also try a number of different neighbourhood values in one go. To do thi
 
 | parameter | type    | description                                      | example |
 | --------- | ------- | ------------------------------------------------ | -------| 
-| `neighbourhood_range` | vector | a vector of neighbourhood values you want to try | `1:10` |
+| `neighbourhood_range` | vector | a vector of neighbourhood values you want to try | `2:10` |
 
 ```r
 clusters.batch.mds <- clustering_$do_dbscan_batch(2:10)
