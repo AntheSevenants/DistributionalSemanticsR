@@ -17,9 +17,13 @@ dimension_reduction_factory <- setRefClass("DimensionReductionFactory",
                                               distance_matrix="matrix"),
                                            methods = list(
                                               # constructor
-                                              initialize = function(distributional_coords) {
-                                                distributional_coords <<- distributional_coords
-                                                distance_matrix <<- get_distance_matrix()
+                                              initialize = function(distributional_coords, distance_matrix=NULL) {
+                                                if (is.null(distance_matrix)) {
+                                                  distributional_coords <<- distributional_coords
+                                                  distance_matrix <<- get_distance_matrix()
+                                                } else {
+                                                  distance_matrix <<- distance_matrix
+                                                }
                                               },
                                               
                                               get_distance_matrix = function() {
