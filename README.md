@@ -1,6 +1,8 @@
 # DistributionalSemanticsR
 Tools for using distributional semantics in R
 
+[Tutorial on how to use this library](https://anthe.sevenants.net/post/distributional-semantics-r)
+
 ## What is DistributionalSemanticsR?
 
 DistributionalSemanticsR is a library with which you can easily use distributional semantics datasets. The main idea is that you have a dataset which contains distributional vectors for words, which you can then use to draw your words of choice on a plot. This is done by running dimension reduction on the words' vector values.
