@@ -23,6 +23,7 @@ vector_space <- setRefClass("VectorSpace", fields = list(
                                                                         } })
                                       distributional_coords <- do.call("cbind", distributional_coords)
                                       distributional_coords <- t(distributional_coords)
+                                      rownames(distributional_coords) <- words
                                       
                                       return(distributional_coords)
                                     }
